@@ -1,0 +1,46 @@
+name: Extract BG2X Project
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Extract project ZIP
+        run: |
+          set -e
+          ZIP="MO-Image-AI.zip"
+          TEMP="bg2x-extract-temp"
+
+          if [ ! -f "$ZIP" ]; then
+            echo "ZIP file not found in repository root"
+            exit 1
+          fi
+
+          mkdir "$TEMP"
+          unzip -q "$ZIP" -d "$TEMP"
+
+          ITEMS=$(find "$TEMP" -mindepth 1 -maxdepth 1 | wc -l)
+
+          if [ "$ITEMS" -eq 1 ] && [ -d "$(find "$TEMP" -mindepth 1 -maxdepth 1)" ]; then
+            FOLDER=$(find "$TEMP" -mindepth 1 -maxdepth 1)
+            cp -a "$FOLDER"/. .
+          else
+            cp -a "$TEMP"/. .
+          fi
+
+          rm -rf "$TEMP"
+          rm "$ZIP"
+
+      - name: Commit extracted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Import BG2X project files"
