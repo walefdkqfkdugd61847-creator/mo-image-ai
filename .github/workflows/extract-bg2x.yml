@@ -18,7 +18,7 @@ jobs:
         run: |
           set -e
 
-          ZIP="MO-Image-AI.zip"
+          ZIP="bg2x-main.zip"
           TEMP="bg2x-extract-temp"
 
           if [ ! -f "$ZIP" ]; then
