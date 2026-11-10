@@ -3,142 +3,342 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090b13">
-<title>MO Image AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080912">
+<title>MO Image AI | Ultra Image Enhancer</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+ --bg:#080912;--panel:#111321;--panel2:#17192a;
+ --purple:#9865ff;--cyan:#45d8ef;--text:#f6f4ff;
+ --muted:#9293aa;--border:#292a40;
+}
 *{box-sizing:border-box}
 body{
- margin:0;background:#090b13;color:#f5f5fa;
- font-family:Arial,sans-serif;min-height:100vh;
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:'Cairo',Arial,sans-serif;
+ min-height:100vh;overflow-x:hidden;
 }
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;
+ background:
+ radial-gradient(ellipse at 15% 10%,#6032b31b,transparent 40%),
+ radial-gradient(ellipse at 90% 45%,#176b9d13,transparent 40%);
+ z-index:-1;
+}
+button{font-family:inherit}
 header{
- padding:22px 7%;display:flex;justify-content:space-between;
- align-items:center;border-bottom:1px solid #202331;
+ height:76px;border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 6%;background:#090a14d9;
+ position:sticky;top:0;z-index:10;backdrop-filter:blur(15px);
 }
-.logo{font-size:23px;font-weight:900;color:#a78bfa}
-.logo span{color:white}
-.tag{font-size:12px;color:#a78bfa}
-main{max-width:900px;margin:65px auto;padding:20px}
-.hero{text-align:center;margin-bottom:35px}
-.hero h1{font-size:38px;margin:10px}
-.hero h1 span{color:#a78bfa}
-.hero p{color:#9298aa;line-height:1.8}
-.panel{
- background:#111522;border:1px solid #252b3c;
- border-radius:20px;padding:25px;
+.logo{font-size:23px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--purple)}
+.logo small{display:block;font-size:9px;color:var(--muted);letter-spacing:3px}
+.header-right{display:flex;align-items:center;gap:20px}
+.status-pill{
+ border:1px solid #3c315b;background:#211a35;
+ color:#c5aaff;border-radius:30px;padding:6px 13px;font-size:11px;
 }
+.menu{background:none;border:0;color:white;font-size:23px;cursor:pointer}
+main{max-width:1120px;margin:auto;padding:48px 22px 70px}
+.hero{text-align:center;margin-bottom:36px}
+.eyebrow{
+ display:inline-flex;gap:8px;align-items:center;
+ color:#c5aaff;font-size:11px;letter-spacing:2px;
+ border:1px solid #49366c;background:#19132b;
+ padding:7px 14px;border-radius:30px;
+}
+.dot{width:7px;height:7px;background:#9f76ff;border-radius:50%;box-shadow:0 0 12px #9865ff}
+h1{font-size:clamp(30px,6vw,53px);line-height:1.4;margin:18px 0 7px;font-weight:900}
+.gradient{
+ background:linear-gradient(90deg,#a982ff,#55d9ed);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{color:var(--muted);font-size:14px;line-height:2;margin:8px auto;max-width:600px}
+.features{
+ display:flex;justify-content:center;gap:23px;flex-wrap:wrap;
+ margin-top:20px;color:#b4b2c8;font-size:11px;
+}
+.features span:before{content:"✦";color:var(--cyan);margin-left:7px}
+.workspace{
+ display:grid;grid-template-columns:1fr 1fr;gap:18px;
+}
+.card{
+ background:linear-gradient(145deg,#151728,#10121e);
+ border:1px solid var(--border);border-radius:19px;
+ padding:23px;min-width:0;box-shadow:0 15px 45px #0003;
+}
+.card-title{font-size:16px;font-weight:800;margin:0 0 5px}
+.card-desc{font-size:11px;color:var(--muted);margin-bottom:20px}
 .upload{
- border:2px dashed #555078;border-radius:15px;
- padding:40px 15px;text-align:center;cursor:pointer;
- background:#171b2a;transition:.2s;
+ min-height:265px;border:1.5px dashed #66518c;
+ border-radius:15px;background:#17172a;
+ display:flex;align-items:center;justify-content:center;
+ text-align:center;cursor:pointer;padding:20px;
+ transition:.25s;
 }
-.upload:hover{border-color:#a78bfa}
-.upload .symbol{font-size:42px}
-.upload p{color:#aaa}
-input[type=file]{display:none}
-.preview{display:none;margin-top:20px;text-align:center}
-.preview img{max-width:100%;max-height:350px;border-radius:12px}
-.section{margin-top:25px}
-.section h3{font-size:15px;margin-bottom:13px}
-.options{display:flex;gap:10px;flex-wrap:wrap}
-.option{
- flex:1;min-width:90px;padding:13px 8px;
- border:1px solid #33394b;border-radius:10px;
- background:#191e2c;color:white;cursor:pointer;
+.upload:hover,.upload.drag{
+ border-color:var(--cyan);background:#1c1d32;
+ box-shadow:0 0 25px #9865ff18;
 }
-.option.active{border-color:#a78bfa;background:#302447;color:#d8c5ff}
-button.primary{
- width:100%;padding:16px;border:0;border-radius:12px;
- background:linear-gradient(100deg,#7955db,#a78bfa);
- color:white;font-size:16px;font-weight:bold;
- cursor:pointer;margin-top:28px;
+.upload-icon{
+ width:68px;height:68px;border-radius:20px;
+ background:linear-gradient(145deg,#35215e,#202b50);
+ display:grid;place-items:center;margin:auto auto 16px;
+ font-size:29px;box-shadow:0 0 25px #8959ff30;
 }
-button:disabled{opacity:.5;cursor:not-allowed}
-.status{color:#a78bfa;text-align:center;font-size:13px;margin-top:15px}
-footer{text-align:center;color:#70778a;padding:30px;font-size:12px}
+.upload strong{font-size:15px}
+.upload p{font-size:11px;color:var(--muted);line-height:2}
+.upload .browse{color:#b89aff;text-decoration:underline}
+#file{display:none}
+.preview{display:none;text-align:center}
+.preview img{
+ max-width:100%;max-height:255px;object-fit:contain;
+ border-radius:12px;display:block;margin:auto;
+}
+.file-info{font-size:11px;color:#b8b4d0;margin-top:12px;overflow-wrap:anywhere}
+.remove{
+ background:#33202d;border:1px solid #754057;color:#ff9cba;
+ padding:6px 14px;border-radius:8px;margin-top:10px;cursor:pointer;
+}
+.field{margin-top:24px}
+.field-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.field-head strong{font-size:13px}
+.hint{font-size:10px;color:var(--muted)}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.choice{
+ border:1px solid var(--border);background:#171928;
+ border-radius:11px;padding:13px 9px;color:white;
+ cursor:pointer;text-align:center;transition:.2s;
+}
+.choice strong{display:block;font-size:12px}
+.choice small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.choice.active{
+ border-color:var(--purple);background:#29203e;
+ box-shadow:inset 0 0 15px #9865ff12;
+}
+.scales{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.scale{
+ border:1px solid var(--border);border-radius:10px;
+ background:#171928;color:white;padding:13px 2px;
+ cursor:pointer;font-weight:800;font-size:14px;
+}
+.scale.active{border-color:var(--cyan);background:#172d38;color:#75e8f7}
+.primary{
+ width:100%;margin-top:26px;border:0;border-radius:12px;
+ padding:15px;color:white;font-size:14px;font-weight:800;
+ cursor:pointer;background:linear-gradient(100deg,#7042d3,#a16bff,#4e9ce9);
+ box-shadow:0 7px 25px #8855ec35;transition:.2s;
+}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.primary:not(:disabled):active{transform:scale(.98)}
+.note{
+ margin-top:12px;font-size:10px;color:var(--muted);
+ text-align:center;line-height:1.8;
+}
+.result-card{margin-top:20px}
+.result-empty{
+ min-height:220px;border:1px dashed #34354b;border-radius:14px;
+ display:flex;flex-direction:column;justify-content:center;
+ align-items:center;text-align:center;padding:25px;color:var(--muted);
+}
+.result-empty .big{font-size:38px;margin-bottom:10px}
+.result-empty strong{color:#d5d1e7;font-size:13px}
+.result-empty p{font-size:11px;line-height:2}
+.result-image{display:none}
+.result-image img{max-width:100%;max-height:330px;border-radius:12px}
+.info-strip{
+ display:flex;justify-content:space-around;gap:10px;
+ flex-wrap:wrap;margin-top:20px;padding:18px;
+ background:#121422;border:1px solid var(--border);border-radius:14px;
+}
+.info-item{text-align:center}
+.info-item strong{display:block;font-size:15px;color:#c5a5ff}
+.info-item small{font-size:10px;color:var(--muted)}
+footer{
+ text-align:center;border-top:1px solid var(--border);
+ padding:25px;color:#77788e;font-size:11px;
+}
+@media(max-width:720px){
+ header{padding:0 18px;height:67px}
+ main{padding:35px 14px 50px}
+ .workspace{grid-template-columns:1fr}
+ .hero{margin-bottom:27px}
+ .card{padding:18px}
+ .upload{min-height:225px}
+ .header-right{gap:8px}
+}
 </style>
 </head>
 <body>
+
 <header>
- <div class="logo">MO <span>IMAGE AI</span></div>
- <div class="tag">AI IMAGE ENHANCER</div>
+ <div class="logo">MO <span>IMAGE AI</span><small>ULTRA ENHANCER</small></div>
+ <div class="header-right">
+  <div class="status-pill">✦ AI STUDIO</div>
+  <button class="menu" aria-label="Menu">☰</button>
+ </div>
 </header>
 
 <main>
- <div class="hero">
-  <div class="tag">NEXT GENERATION IMAGE UPSCALER</div>
-  <h1>اجعل صورك <span>أكثر وضوحاً</span></h1>
-  <p>ارفع جودة صور الأنمي والصور العادية باستخدام الذكاء الاصطناعي.</p>
- </div>
-
- <div class="panel">
-  <label class="upload" for="file">
-   <div class="symbol">✦</div>
-   <strong>اضغط لاختيار صورة</strong>
-   <p>PNG · JPG · WEBP</p>
-   <p>اختر صورة من جهازك للبدء</p>
-  </label>
-  <input id="file" type="file" accept="image/png,image/jpeg,image/webp">
-
-  <div class="preview" id="preview">
-   <img id="image" alt="معاينة الصورة">
-   <p id="filename"></p>
+ <section class="hero">
+  <div class="eyebrow"><i class="dot"></i> NEXT GENERATION IMAGE ENHANCEMENT</div>
+  <h1>أطلق العنان <span class="gradient">لتفاصيل صورك</span></h1>
+  <p>حوّل صور الأنمي والصور العادية إلى صور أكثر وضوحاً وتفصيلاً باستخدام تقنيات الذكاء الاصطناعي.</p>
+  <div class="features">
+   <span>Anime Enhancement</span>
+   <span>Real Photo AI</span>
+   <span>Ultra Resolution</span>
   </div>
+ </section>
 
-  <div class="section">
-   <h3>نوع الصورة</h3>
-   <div class="options">
-    <button class="option active" data-mode="anime">🎨 أنمي ومانجا</button>
-    <button class="option" data-mode="photo">📷 صور حقيقية</button>
+ <section class="workspace">
+  <div class="card">
+   <h2 class="card-title">رفع الصورة</h2>
+   <div class="card-desc">اختر الصورة التي تريد تحسين جودتها</div>
+
+   <label class="upload" id="dropzone" for="file">
+    <div>
+     <div class="upload-icon">⇧</div>
+     <strong>اسحب الصورة إلى هنا</strong>
+     <p>أو <span class="browse">اضغط لاختيار صورة</span><br>PNG · JPG · WEBP · حتى 20MB</p>
+    </div>
+   </label>
+   <input id="file" type="file" accept="image/png,image/jpeg,image/webp">
+
+   <div class="preview" id="preview">
+    <img id="image" alt="الصورة الأصلية">
+    <div class="file-info" id="fileInfo"></div>
+    <button class="remove" id="remove">إزالة الصورة ✕</button>
    </div>
-  </div>
 
-  <div class="section">
-   <h3>مستوى التكبير</h3>
-   <div class="options">
-    <button class="option" data-scale="2">×2</button>
-    <button class="option active" data-scale="4">×4</button>
-    <button class="option" data-scale="8">×8</button>
-    <button class="option" data-scale="16">×16</button>
+   <div class="field">
+    <div class="field-head">
+     <strong>نوع الصورة</strong><span class="hint">اختر المحرك المناسب</span>
+    </div>
+    <div class="choices">
+     <button class="choice active" data-mode="anime">
+      <strong>🎨 Anime AI</strong><small>أنمي ومانجا ورسومات</small>
+     </button>
+     <button class="choice" data-mode="photo">
+      <strong>📷 Real Photo</strong><small>صور طبيعية وشخصية</small>
+     </button>
+    </div>
    </div>
+
+   <div class="field">
+    <div class="field-head">
+     <strong>دقة التكبير المستهدفة</strong><span class="hint">اختر الحجم</span>
+    </div>
+    <div class="scales">
+     <button class="scale" data-scale="2">×2</button>
+     <button class="scale active" data-scale="4">×4</button>
+     <button class="scale" data-scale="8">×8</button>
+     <button class="scale" data-scale="16">×16</button>
+    </div>
+   </div>
+
+   <button class="primary" id="enhance" disabled>✦ تحسين الصورة بالذكاء الاصطناعي</button>
+   <div class="note" id="status">اختر صورة للبدء. محرك المعالجة سيتم ربطه في المرحلة القادمة.</div>
   </div>
 
-  <button class="primary" id="enhance" disabled>
-   ✨ تحسين الصورة بالذكاء الاصطناعي
-  </button>
-  <div class="status" id="status">اختر صورة للبدء</div>
- </div>
+  <div class="card">
+   <h2 class="card-title">معاينة النتائج</h2>
+   <div class="card-desc">شاهد الصورة الأصلية والنتيجة بعد التحسين</div>
+
+   <div class="result-empty" id="empty">
+    <div class="big">✧</div>
+    <strong>مساحة النتائج</strong>
+    <p>ستظهر هنا الصورة بعد انتهاء المعالجة<br>مع إمكانية مقارنة الجودة قبل وبعد.</p>
+   </div>
+   <div class="result-image" id="result">
+    <img id="resultImg" alt="الصورة المحسنة">
+    <p class="file-info">معاينة الصورة المختارة فقط — لم تتم معالجتها بعد.</p>
+   </div>
+
+   <div class="info-strip">
+    <div class="info-item"><strong>AI</strong><small>Smart Enhancement</small></div>
+    <div class="info-item"><strong>×16</strong><small>Target Scale</small></div>
+    <div class="info-item"><strong>HD+</strong><small>Image Quality</small></div>
+   </div>
+   <div class="note">مستويات التكبير المعروضة هي خيارات الواجهة، وليست محركات معالجة مفعّلة حتى الآن.</div>
+  </div>
+ </section>
 </main>
 
-<footer>MO IMAGE AI © 2026 · Built for image enhancement</footer>
+<footer>
+ <div class="logo">MO <span>IMAGE AI</span></div>
+ <p>Redefining Image Quality · 2026</p>
+</footer>
 
 <script>
 const fileInput=document.getElementById('file');
+const dropzone=document.getElementById('dropzone');
 const preview=document.getElementById('preview');
 const image=document.getElementById('image');
+const resultImg=document.getElementById('resultImg');
 const enhance=document.getElementById('enhance');
 const status=document.getElementById('status');
 let selectedFile=null;
+let imageURL=null;
 let mode='anime';
 let scale=4;
-let imageURL=null;
 
-fileInput.addEventListener('change',()=>{
- const file=fileInput.files[0];
+function loadFile(file){
  if(!file)return;
- if(file.size>20*1024*1024){
-  status.textContent='حجم الصورة أكبر من 20MB';
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type)){
+  status.textContent='نوع الملف غير مدعوم. اختر PNG أو JPG أو WEBP.';
   return;
  }
- selectedFile=file;
+ if(file.size>20*1024*1024){
+  status.textContent='حجم الصورة أكبر من 20MB.';
+  return;
+ }
  if(imageURL)URL.revokeObjectURL(imageURL);
+ selectedFile=file;
  imageURL=URL.createObjectURL(file);
  image.src=imageURL;
- document.getElementById('filename').textContent=file.name;
+ resultImg.src=imageURL;
+ document.getElementById('fileInfo').textContent=
+ file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB';
  preview.style.display='block';
+ dropzone.style.display='none';
+ document.getElementById('empty').style.display='none';
+ document.getElementById('result').style.display='block';
  enhance.disabled=false;
- status.textContent='تم اختيار الصورة بنجاح';
+ status.textContent='تم تحميل الصورة بنجاح. محرك AI لم يتم ربطه بعد.';
+}
+
+fileInput.addEventListener('change',e=>loadFile(e.target.files[0]));
+
+document.getElementById('remove').onclick=()=>{
+ selectedFile=null;
+ fileInput.value='';
+ if(imageURL)URL.revokeObjectURL(imageURL);
+ imageURL=null;
+ preview.style.display='none';
+ dropzone.style.display='flex';
+ document.getElementById('empty').style.display='flex';
+ document.getElementById('result').style.display='none';
+ enhance.disabled=true;
+ status.textContent='اختر صورة للبدء.';
+};
+
+['dragenter','dragover'].forEach(event=>{
+ dropzone.addEventListener(event,e=>{
+  e.preventDefault();dropzone.classList.add('drag');
+ });
+});
+['dragleave','drop'].forEach(event=>{
+ dropzone.addEventListener(event,e=>{
+  e.preventDefault();dropzone.classList.remove('drag');
+ });
+});
+dropzone.addEventListener('drop',e=>{
+ loadFile(e.dataTransfer.files[0]);
 });
 
 document.querySelectorAll('[data-mode]').forEach(btn=>{
@@ -148,7 +348,6 @@ document.querySelectorAll('[data-mode]').forEach(btn=>{
   mode=btn.dataset.mode;
  };
 });
-
 document.querySelectorAll('[data-scale]').forEach(btn=>{
  btn.onclick=()=>{
   document.querySelectorAll('[data-scale]').forEach(b=>b.classList.remove('active'));
@@ -159,7 +358,7 @@ document.querySelectorAll('[data-scale]').forEach(btn=>{
 
 enhance.onclick=()=>{
  if(!selectedFile)return;
- status.textContent='واجهة الموقع جاهزة. محرك معالجة AI سيتم ربطه في المرحلة القادمة.';
+ status.textContent='واجهة الموقع جاهزة، نعمل الآن على ربط محرك الذكاء الاصطناعي الحقيقي.';
 };
 </script>
 </body>
