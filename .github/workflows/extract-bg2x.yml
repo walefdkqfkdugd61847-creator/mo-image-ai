@@ -17,7 +17,7 @@ jobs:
       - name: Extract project ZIP
         run: |
           set -e
-          ZIP="Image-AI.zip"
+          ZIP="bg2x-main.zip"
           TEMP="bg2x-extract-temp"
 
           if [ ! -f "$ZIP" ]; then
